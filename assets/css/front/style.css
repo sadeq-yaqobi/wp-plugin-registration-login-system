@@ -1,0 +1,164 @@
+.modal-backdrop{
+    z-index:998!important;
+}
+.bg-cover {
+    background-size: cover !important;
+    background-position: center !important;
+    background:#1f2431 url("../../img/log.webp")no-repeat;
+}
+section.log-space {
+    padding: 45px 0;
+    background: #edf1f5;
+}
+.log_rads {
+    background: #ffffff;
+    border-radius: 6px;
+    position: relative;
+    overflow: hidden;
+}
+.lui_9okt6 {
+    padding: 2rem;
+}
+._loh_revu97 {
+    margin-top: 350px;
+}
+._loh_r96 {
+    position: relative;
+    padding-left: 1.5rem;
+    padding-right: 1rem;
+    display: block;
+}
+._bloi_quote {
+    position: absolute;
+    right: 0;
+    font-size: 50px;
+    top: 0;
+    color: #ffffff;
+    opacity: 0.3;
+}
+._loh_r92 h4 {
+    font-size: 20px;
+    margin: 0;
+    color: #ffffff;
+}
+._loh_r93 {
+    color: rgba(255, 255, 255, 0.8);
+}
+._loh_foot_r93 h4 {
+    margin: 0;
+    font-size: 15px;
+    line-height: 1;
+    color: #ffeb3b;
+}
+
+._loh_foot_r93 span {
+    color: white;
+    font-size: 13px;
+    line-height: 1;
+}
+.log_wraps label {
+    width: 100%;
+    font-size: 13px;
+    color: #2d324e;
+    /* font-weight: 600;*/
+    font-family: vazir-bold
+}
+.log_wraps {
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+}
+.log_wraps .form-control {
+    border-radius: 4px;
+    background: #f4f5f7;
+    border: 1px solid #eaecf1;
+    transition: all ease 0.4s;
+}
+.log_wraps .form-control:focus {
+    color: #2196f3;
+    background: rgba(33, 150, 243, 0.1);
+    border-color: rgba(33, 150, 243, 0.1);
+}
+.log-logo_head {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+}
+.log__heads {
+    text-align: right;
+    position: relative;
+    margin-bottom: 1rem;
+    display: inline-block;
+}
+
+.log__heads .logs_title {
+    font-size: 24px;
+    font-family: vazir;
+    font-weight: 300;
+}
+.theme-cl {
+    color: #da0b4e;
+}
+
+.social_logs {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.social_logs ul {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    display: flex;
+}
+
+.social_logs ul li {
+    display: inline-block;
+    padding: 5px;
+    width: 50%;
+    flex: 0 0 50%;
+}
+
+.social_logs ul li a {
+    width: 100%;
+    height: 56px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid #eaeef5;
+    transition: all ease 0.4s;
+    background: #ffffff;
+    font-size: 16px;
+    border-radius: 4px;
+    font-weight: 600;
+    color: #323a48 !important;
+}
+
+.social_logs ul li a:focus, .social_logs ul li a:hover {
+    border-color: #eaeef5;
+    background: #eaeef5;
+}
+/*loading icon*/
+/* HTML: <div class="loader"></div> */
+.loader {
+    height: 25px;
+    aspect-ratio: 2;
+    /*border: 10px solid transparent;*/
+    box-sizing: border-box;
+    background:
+            radial-gradient(farthest-side,#fff 98%,#0000) right/8px 8px,
+            radial-gradient(farthest-side,#fff 98%,#0000) right/8px 8px,
+            radial-gradient(farthest-side,#fff 98%,#0000) center/8px 8px,
+            radial-gradient(farthest-side,#fff 98%,#0000) left/8px 8px,
+            transparent;
+    background-repeat: no-repeat;
+    animation: loader 1s infinite;
+}
+@keyframes loader {
+   100%  {background-position:right,left,center,left}
+}
+

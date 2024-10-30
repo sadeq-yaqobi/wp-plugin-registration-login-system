@@ -21,14 +21,15 @@ const LR_PLUGIN_ASSETS_URL = LR_PLUGIN_URL . 'assets/';
 /**
  * Register and enqueue frontend assets
  */
-function lr_register_assets_front() {
+function lr_register_assets_front()
+{
     // Register and enqueue CSS
-    wp_register_style('slick-style',LR_PLUGIN_ASSETS_URL . 'css/front/slick.min.css',[],'1.0.0');
+    wp_register_style('slick-style', LR_PLUGIN_ASSETS_URL . 'css/front/slick.min.css', [], '1.0.0');
     wp_enqueue_style('slick-style');
-    wp_register_style('slick-theme-style',LR_PLUGIN_ASSETS_URL . 'css/front/slick-theme.min.css',[],'1.0.0');
+    wp_register_style('slick-theme-style', LR_PLUGIN_ASSETS_URL . 'css/front/slick-theme.min.css', [], '1.0.0');
     wp_enqueue_style('slick-theme-style');
 
-    wp_register_style('lr-style',LR_PLUGIN_ASSETS_URL . 'css/front/style.css',[],'1.0.0');
+    wp_register_style('lr-style', LR_PLUGIN_ASSETS_URL . 'css/front/style.css', [], '1.0.0');
     wp_enqueue_style('lr-style');
 
     // Register and enqueue JavaScript
@@ -37,9 +38,9 @@ function lr_register_assets_front() {
     wp_register_script('slick-js', LR_PLUGIN_ASSETS_URL . 'js/front/slick.min.js', ['jquery'], '1.0.0', ['strategy' => 'async', 'in_footer' => true]);
     wp_enqueue_script('slick-js');
 
-    wp_register_script('lr-main-js',LR_PLUGIN_ASSETS_URL . 'js/front/main.js', ['jquery'], '1.0.0', ['strategy' => 'async', 'in_footer' => true]);
+    wp_register_script('lr-main-js', LR_PLUGIN_ASSETS_URL . 'js/front/main.js', ['jquery'], '1.0.0', ['strategy' => 'async', 'in_footer' => true]);
     wp_enqueue_script('lr-main-js');
-    wp_register_script('lr-front-ajax',LR_PLUGIN_ASSETS_URL . 'js/front/front-ajax.js', ['jquery'], '1.0.0', ['strategy' => 'async', 'in_footer' => true]);
+    wp_register_script('lr-front-ajax', LR_PLUGIN_ASSETS_URL . 'js/front/front-ajax.js', ['jquery'], '1.0.0', ['strategy' => 'async', 'in_footer' => true]);
     wp_enqueue_script('lr-front-ajax');
 
     // localize script
@@ -49,17 +50,19 @@ function lr_register_assets_front() {
     ]);
 }
 
-function lr_register_assets_admin() {
+function lr_register_assets_admin()
+{
     // Register and enqueue CSS
-    wp_register_style('lr-admin-style',LR_PLUGIN_ASSETS_URL . 'css/admin/admin-style.css',[],'1.0.0');
+    wp_register_style('lr-admin-style', LR_PLUGIN_ASSETS_URL . 'css/admin/admin-style.css', [], '1.0.0');
     wp_enqueue_style('lr-admin-style');
 
     // Register and enqueue JavaScript
-    wp_register_script('lr-admin-js',LR_PLUGIN_ASSETS_URL . 'js/admin/admin-js.js', ['jquery'], '1.0.0', ['strategy' => 'async', 'in_footer' => true]);
+    wp_register_script('lr-admin-js', LR_PLUGIN_ASSETS_URL . 'js/admin/admin-js.js', ['jquery'], '1.0.0', ['strategy' => 'async', 'in_footer' => true]);
     wp_enqueue_script('lr-admin-js');
-    wp_register_script('lr-admin-ajax',LR_PLUGIN_ASSETS_URL . 'js/admin/admin-ajax.js', ['jquery'], '1.0.0', ['strategy' => 'async', 'in_footer' => true]);
+    wp_register_script('lr-admin-ajax', LR_PLUGIN_ASSETS_URL . 'js/admin/admin-ajax.js', ['jquery'], '1.0.0', ['strategy' => 'async', 'in_footer' => true]);
     wp_enqueue_script('lr-admin-ajax');
 }
+
 add_action('wp_enqueue_scripts', 'lr_register_assets_front');
 add_action('admin_enqueue_scripts', 'lr_register_assets_admin');
 
@@ -69,17 +72,29 @@ if (is_admin()) {
 }
 include_once LR_PLUGIN_VIEW . 'front/login.php';
 include_once LR_PLUGIN_INC . 'front/login.php';
+include_once LR_PLUGIN_INC . 'front/send-SMS.php';
+include_once LR_PLUGIN_INC . 'front/registration.php';
+include_once LR_PLUGIN_INC . 'helper.php';
+include_once LR_PLUGIN_INC . 'front/sms-functions.php';
+include_once LR_PLUGIN_INC . 'database/table-functions.php';
+include_once LR_PLUGIN_INC . 'database/clean-up-database.php';
+
+
+
 
 //activation and deactivation plugin hooks
-/*function func1()
+function lr_activation_functions()
 {
-//    any work that needs to do when the plugin is activated like creating tables on database
+    create_otp_verification_table();
+}
+function lr_deactivation_functions()
+{
+    delete_otp_verification_table();
 }
 
-function func2()
-{
-    //
-}
-register_activation_hook(__FILE__,func1());
-register_deactivation_hook(__FILE__,func2());*/
+
+register_activation_hook(__FILE__, 'lr_activation_functions');
+register_deactivation_hook(__FILE__, 'lr_deactivation_functions');
+
+cleanup_expired_verification_codes();
 

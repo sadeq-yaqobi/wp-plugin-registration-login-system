@@ -1,0 +1,32 @@
+.lr-wrap {
+    max-width: 100%;
+    margin: 10px auto;
+    padding: 10px;
+}
+.lr-form-field {
+    margin: 0 20px;
+}
+.lr-form-field input {
+    margin-bottom: 8px;
+}
+.lr-description {
+    margin-top: 8px;
+    color: #666;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+.lr-description.lr-important {
+    color: #d63638;
+
+}
+.lr-welcome-panel {
+    margin: 1em 0 2em;
+}
+.lr-welcome-panel-content {
+    padding-top: 20px;
+}
+.lr-about-description {
+    font-size: 16px;
+    margin: 1em 0;
+}

@@ -75,7 +75,7 @@ include_once LR_PLUGIN_INC . 'front/login.php';
 include_once LR_PLUGIN_INC . 'front/send-SMS.php';
 include_once LR_PLUGIN_INC . 'front/registration.php';
 include_once LR_PLUGIN_INC . 'helper.php';
-include_once LR_PLUGIN_INC . 'front/sms-functions.php';
+include_once LR_PLUGIN_INC . 'database/sms-functions.php';
 include_once LR_PLUGIN_INC . 'database/table-functions.php';
 include_once LR_PLUGIN_INC . 'database/clean-up-database.php';
 

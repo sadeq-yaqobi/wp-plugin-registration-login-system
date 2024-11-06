@@ -256,3 +256,44 @@ section.log-space {
 .verification-code-wrap {
     display: none;
 }
+.resend-wrapper {
+
+    display: flex;
+    justify-content: space-between;
+}
+
+#timer {
+    color: #666;
+    font-size: 0.9rem;
+}
+#timer.otp-disabled {
+    opacity: 0.5;
+}
+#timer#resend-code.otp-active {
+    opacity: 1;
+}
+
+#resend-code {
+    text-decoration: none;
+}
+#resend-code.otp-disabled {
+    color: #666;
+    cursor: not-allowed;
+    opacity: 0.5;
+}
+#resend-code.otp-disabled:hover {
+    color: #666;
+}
+#resend-code.otp-active {
+    opacity: 1;
+    cursor: pointer;
+}
+#resend-code.otp-active:hover {
+    color: #da0b4e;
+}
+.d-none {
+    display: none !important;
+}
+#user_email,#user_password {
+    direction: ltr;
+}

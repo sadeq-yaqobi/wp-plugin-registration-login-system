@@ -190,4 +190,102 @@ jQuery(document).ready(function($) {
         // Handle OTP paste
         $('.otp-form-group').on('paste', handleOtpPaste);
     }
+
+    // registration part include display name, email, and password
+    const $displayName = $('#display_name');
+    const $email = $('#user_email');
+    const $password = $('#user_password');
+    const $togglePassword = $('.toggle-password');
+    const $passwordRequirements = $('.password-requirements');
+
+    toggleShowPassword();
+    showPasswordRequirement();
+
+    // Password visibility toggle
+    function toggleShowPassword() {
+        $togglePassword.on('click', function () {
+            const $pwd = $password;
+            const type = $pwd.attr('type') === 'password' ? 'text' : 'password';
+            $pwd.attr('type', type);
+
+            // Toggle eye icon
+            const $eyeIcon = $(this).find('img');
+            if (type === 'password') {
+                let srcEye = $eyeIcon.attr('src').replace('eye-off.svg', 'eye.svg')
+                $eyeIcon.attr('src', srcEye);
+            } else {
+                let srcEyeOff = $eyeIcon.attr('src').replace('eye.svg', 'eye-off.svg')
+                $eyeIcon.attr('src', srcEyeOff);
+            }
+        });
+    }
+
+    function showPasswordRequirement() {
+        $password.on('focus', function () {
+            $passwordRequirements.fadeIn();
+        });
+        $password.on('blur', function () {
+            $passwordRequirements.fadeOut();
+        });
+    }
+
+    // Password validation patterns
+    const patterns = {
+        length: /.{8,}/,
+        number: /[0-9]/,
+        lowercase: /[a-z]/,
+        uppercase: /[A-Z]/,
+        special: /[!@#$%^&*]/
+    };
+    function validatePassword(password) {
+        // Check each requirement
+        for (const [requirement, pattern] of Object.entries(patterns)) {
+            const isValid = pattern.test(password);
+            const $requirementElement = $(`#${requirement}`);
+            const $iconElement = $requirementElement.prev('img');
+
+            $requirementElement.toggleClass('valid', isValid);
+            if (isValid) {
+                const $src = $iconElement.attr('src').replace('x.svg', 'check.svg')
+                $iconElement.attr('src', $src);
+            } else {
+                const $src = $iconElement.attr('src').replace('check.svg', 'x.svg')
+                $iconElement.attr('src', $src);
+            }
+        }
+
+        // Check if all requirements are met
+        return Object.values(patterns).every(pattern => pattern.test(password));
+    }
+
+    function validateForm() {
+        //input value
+        const nameValue = $displayName.val().trim();
+        const emailValue = $email.val().trim();
+        const passwordValue = $password.val().trim();
+
+        validatePassword(passwordValue); // to check password requirements independently
+
+        // Email validation pattern
+        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        const isEmailValid = emailPattern.test(emailValue);
+
+        // Check if all fields are valid
+        const isValid = nameValue !== '' &&
+            isEmailValid &&
+            validatePassword(passwordValue);
+
+        // Enable/disable submit button
+        $submitBtn.prop('disabled', !isValid)
+            .toggleClass('active', isValid);
+    }
+
+    // Add input event listeners
+    $displayName.on('input', validateForm);
+    $email.on('input', validateForm);
+    $password.on('input', validateForm);
+
+
+    // Initial validation
+    validateForm();
 });

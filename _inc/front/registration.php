@@ -67,6 +67,7 @@ function lr_register_user()
         ], 403);
     }
     lr_validate_registration_user_data($_POST);
+    DebugHelper::dump($_POST);
 }
 
 

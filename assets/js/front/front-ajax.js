@@ -83,6 +83,7 @@ jQuery(document).ready(function ($) {
     const $otpError = $('#error_message');
     const $phoneWrap = $('.phone-number-wrap');
     const $verificationWrap = $('.verification-code-wrap');
+    const $userDataWrapper=$('.user-data-wrapper');
     const $resendCode = $('#resend-code');
     const $timer = $('#timer');
     let countdownInterval;
@@ -179,36 +180,6 @@ jQuery(document).ready(function ($) {
     }
 
     /**
-     * Registration form validation
-     */
-    function setupRegistrationValidation() {
-        const $displayName = $('#display_name');
-        const $email = $('#user_email');
-        const $password = $('#user_password');
-
-        function validateRegistrationForm() {
-            const nameValue = $displayName.val().trim();
-            const emailValue = $email.val().trim();
-            const passwordValue = $password.val().trim();
-
-            // Check if all fields have values
-            const isValid = nameValue !== '' && emailValue !== '' && passwordValue !== '';
-
-            // Enable/disable submit button based on validation
-            $submitBtn.prop('disabled', !isValid)
-                .toggleClass('active', isValid);
-        }
-
-        // Add input event listeners to all registration fields
-        $displayName.on('input', validateRegistrationForm);
-        $email.on('input', validateRegistrationForm);
-        $password.on('input', validateRegistrationForm);
-
-        // Initial validation
-        validateRegistrationForm();
-    }
-
-    /**
      * Submit button handling
      */
     function setupSubmitButton(message) {
@@ -236,7 +207,6 @@ jQuery(document).ready(function ($) {
                         // Actions to handle successful response --- to get success message use this template: response.message
                         if (response.success) {
                             const phoneNumber = response.phone_number;
-                            console.log(phoneNumber); // Log the phone number
                             $phoneInput.val(phoneNumber);
                             // Switch to OTP view
                             $phoneWrap.hide();
@@ -289,7 +259,8 @@ jQuery(document).ready(function ($) {
                         // Actions to handle successful response --- to get success message use this template: response.message
                         // Switch to name-email-password view
                         if (response.success) {
-                            $verificationWrap.html('<div class="form-group"> <label for="display_name">نام و نام خانوادگی*</label> <input id="display_name" type="text" class="form-control" placeholder="نام و نام خانوادگی"> </div> <div class="form-group"> <label for="user_email">ایمیل*</label> <input id="user_email" type="text" class="form-control" placeholder="example@gmail.com"> </div> <div class="form-group"> <label for="user_password">رمز عبور*</label> <input id="user_password" type="text" class="form-control" placeholder="*******"> </div>')
+                            $verificationWrap.html('');
+                            $userDataWrapper.fadeIn();
                             $('#display_name').focus();
                             $submitBtn.removeClass('send-verification-code')
                                 .addClass('register-btn')

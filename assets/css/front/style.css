@@ -297,3 +297,67 @@ section.log-space {
 #user_email,#user_password {
     direction: ltr;
 }
+
+.input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+.input-icon {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+.toggle-password {
+    background: none;
+    border: none;
+    box-shadow: none;
+    outline: none;
+    padding: 0;
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    cursor: pointer;
+    transform: translateY(-50%);
+    transition: all 0.2s ease-in-out;
+}
+.toggle-password:focus {
+    border: none;
+    outline: none;
+}
+.pass-eye-icon {
+    opacity: 70%;
+}
+.pass-eye-icon:hover {
+    opacity: 100%;
+}
+#display_name,#phone-input,#user_email,#user_password {
+    padding-left:45px;
+}
+.password-requirements {
+    display: none;
+}
+.requirement {
+    position: relative;
+    display: flex;
+    align-items: center;
+    padding-top: 10px;
+}
+.pass-description-icon {
+    /*position: absolute;*/
+    /*right: 0;*/
+    /*top: 50%;*/
+    /*transform: translateY(-50%);*/
+}
+.requirement {
+    padding-right: 3px;
+    color: #d32f2f;
+    font-size: 13px;
+}
+.valid {
+    color: #388e3c;
+}
+.user-data-wrapper {
+    display: none;
+}

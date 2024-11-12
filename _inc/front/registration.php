@@ -51,6 +51,7 @@ function lr_auth_validate_verification_code()
             'message' => 'کد اعتبارسنجی اشتباه است یا منقضی شده است.',
         ], 401);
     }
+
     wp_send_json([
         'success' => true,
         'message' => 'کد اعتبارسنجی درست است.اعتبارسنجی انجام شد.',
@@ -67,7 +68,27 @@ function lr_register_user()
         ], 403);
     }
     lr_validate_registration_user_data($_POST);
-    DebugHelper::dump($_POST);
+    $user_login = explode('@', $_POST['email']);
+    $user_login = $user_login[0] . rand(10, 99);
+    $userdata = [
+        'user_login' => apply_filters('pre_user_login', sanitize_text_field($user_login)),
+        'user_pass' => apply_filters('pre_user_pass', sanitize_text_field($_POST['password'])),
+        'display_name' => apply_filters('pre_user_display_name', sanitize_text_field($_POST['displayName'])),
+        'user_email' => apply_filters('pre_user_email', sanitize_text_field($_POST['email'])),
+        'meta_input' => ['_lr_user_phone' => sanitize_text_field($_POST['validPhoneNumber'])]
+    ];
+    $user_ID = wp_insert_user($userdata);
+    if (is_wp_error($user_ID)) {
+        wp_send_json([
+            'error' => true,
+            'message' => 'خطایی در ثبت نام رخ داده است.'
+        ], 409);
+    }
+    wp_send_json([
+        'success' => true,
+        'message' => 'ثبت نام با موفقیت انجام شد.'
+    ], 200);
+
 }
 
 
@@ -120,6 +141,12 @@ function lr_validate_registration_user_data($data)
             'error' => true,
             'message' => 'ایمیل معتبر وارد نمایید.'
         ], 400);
+    }
+    if (email_exists($email)) {
+        wp_send_json([
+            'error'=>true,
+            'message'=>'ایمیل وارد شده قبلا ثبت شده است.'
+        ],400);
     }
     if ($password == '') {
         wp_send_json([

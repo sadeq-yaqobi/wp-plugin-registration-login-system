@@ -69,6 +69,7 @@ add_action('admin_enqueue_scripts', 'lr_register_assets_admin');
 //including files
 if (is_admin()) {
     include LR_PLUGIN_INC . 'admin/menus.php';
+    include LR_PLUGIN_INC . 'admin/custom-user-profile-field.php';
 }
 include_once LR_PLUGIN_VIEW . 'front/login.php';
 include_once LR_PLUGIN_INC . 'front/login.php';

@@ -7,6 +7,10 @@ Version: 1.0.0
 License: GPLv2 or later
 Author URI: http://siteyar.net/sadeq-yaqobi/ */
 
+// if the session hasn't started yet, start it
+if (!session_id()) {
+    session_start();
+}
 #for security
 defined('ABSPATH') || exit();
 
@@ -21,7 +25,7 @@ const LR_PLUGIN_ASSETS_URL = LR_PLUGIN_URL . 'assets/';
 /**
  * Register and enqueue frontend assets
  */
-function lr_register_assets_front()
+function lr_register_assets_front(): void
 {
     // Register and enqueue CSS
     wp_register_style('slick-style', LR_PLUGIN_ASSETS_URL . 'css/front/slick.min.css', [], '1.0.0');
@@ -50,7 +54,7 @@ function lr_register_assets_front()
     ]);
 }
 
-function lr_register_assets_admin()
+function lr_register_assets_admin(): void
 {
     // Register and enqueue CSS
     wp_register_style('lr-admin-style', LR_PLUGIN_ASSETS_URL . 'css/admin/admin-style.css', [], '1.0.0');
@@ -84,11 +88,11 @@ include_once LR_PLUGIN_INC . 'database/clean-up-database.php';
 
 
 //activation and deactivation plugin hooks
-function lr_activation_functions()
+function lr_activation_functions(): void
 {
     create_otp_verification_table();
 }
-function lr_deactivation_functions()
+function lr_deactivation_functions(): void
 {
     delete_otp_verification_table();
 }

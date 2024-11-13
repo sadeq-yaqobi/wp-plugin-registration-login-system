@@ -188,7 +188,7 @@ jQuery(document).ready(function ($) {
 
             if ($submitBtn.hasClass('send-phone')) {
 
-                let $userPhoneNumber = $phoneInput.val().replace(/\s/g, '')
+                let $userPhone = $phoneInput.val().replace(/\s/g, '')
 
                 $.ajax({
                     url: lr_ajax.ajaxurl,      // WordPress AJAX URL from localized script
@@ -196,7 +196,7 @@ jQuery(document).ready(function ($) {
                     dataType: 'json',          // Expected response type
                     data: {
                         action: 'lr_auth_send_sms_verification_code',
-                        userPhone: $userPhoneNumber,
+                        userPhone: $userPhone,
                         _nonce: lr_ajax._nonce
                     },
 
@@ -239,7 +239,7 @@ jQuery(document).ready(function ($) {
                 const verificationCodeValue = Array.from($otpInputs)
                     .map(input => input.value)
                     .join('');
-                let validPhoneNumber = $phoneInput.val()
+                let userPhone = $phoneInput.val()
 
                 $.ajax({
                     url: lr_ajax.ajaxurl,      // WordPress AJAX URL from localized script
@@ -248,7 +248,7 @@ jQuery(document).ready(function ($) {
                     data: {
                         action: 'lr_auth_validate_verification_code',
                         verificationCodeValue: verificationCodeValue,
-                        validPhoneNumber:validPhoneNumber,
+                        userPhone:userPhone,
                         _nonce: lr_ajax._nonce
                     },
 
@@ -268,8 +268,6 @@ jQuery(document).ready(function ($) {
                                 .prop('disabled', true)
                                 .removeClass('active');
 
-                            // Setup validation for registration form
-                            setupRegistrationValidation();
                         }
                     },
                     error: function (error) {
@@ -289,7 +287,6 @@ jQuery(document).ready(function ($) {
                 let displayName = $('#display_name').val();
                 let email = $('#user_email').val();
                 let password = $('#user_password').val();
-                let validPhoneNumber = $phoneInput.val();
 
                 $.ajax({
                     url: lr_ajax.ajaxurl,      // WordPress AJAX URL from localized script
@@ -300,7 +297,6 @@ jQuery(document).ready(function ($) {
                         displayName: displayName,
                         email: email,
                         password: password,
-                        validPhoneNumber: validPhoneNumber,
                         _nonce: lr_ajax._nonce
                     },
 

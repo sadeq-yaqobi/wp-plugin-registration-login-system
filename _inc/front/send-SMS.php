@@ -1,7 +1,7 @@
 <?php
 
 
-function ls_send_sms($args,$to,$bodyID)
+function lr_send_sms($args,$to,$bodyID): void
 {
     $username = get_option('_lr_send_SMS_user_name');
     $password = get_option('_lr_send_SMS_user_password');

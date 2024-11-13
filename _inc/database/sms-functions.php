@@ -40,7 +40,7 @@ function lr_add_verification_code_to_db($phone_number, $verification_code): bool
 }
 
 // validate an OTP
-function lr_validate_verification_code($phone_number, $verification_code): bool
+function lr_validate_verification_code($phone_number, $verification_code):  array
 {
     global $wpdb;
     $table = $wpdb->prefix . 'lr_verification_otp_codes';
@@ -61,7 +61,12 @@ function lr_validate_verification_code($phone_number, $verification_code): bool
         $format = ['%d'];
         $where_format = ['%d'];
         $wpdb->update($table, $data, $where, $format, $where_format);
-        return true;
+        return  [
+            'status'=>true,
+            'valid_phone'=>$result->phone_number
+        ];
     }
-    return false;
+    return [
+        'status'=>false
+    ];
 }

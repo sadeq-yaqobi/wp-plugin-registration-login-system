@@ -6,7 +6,8 @@ add_action('admin_init', 'lr_login_my_custom_setting_init');
 add_action('admin_notices', 'lr_admin_notices');
 
 
-function lr_register_login_my_custom_setting_section() {
+function lr_register_login_my_custom_setting_section(): void
+{
     add_menu_page(
         'پلاگین ثبت‌نام و ورود کاربر',
         'پلاگین ثبت‌نام و ورود',
@@ -18,7 +19,8 @@ function lr_register_login_my_custom_setting_section() {
 }
 
 // Initialize plugin settings and fields
-function lr_login_my_custom_setting_init() {
+function lr_login_my_custom_setting_init(): void
+{
     // Register settings with sanitization
     $args = [
         'type' => 'string',
@@ -28,6 +30,7 @@ function lr_login_my_custom_setting_init() {
     register_setting('lr_settings', '_lr_send_SMS_user_name', $args);
     register_setting('lr_settings', '_lr_send_SMS_user_password', $args);
     register_setting('lr_settings', '_lr_bodyID_registration_otp_code', $args);
+    register_setting('lr_settings', '_lr_bodyID_registration_welcome_message', $args);
 
     // Add settings section for user and password
     add_settings_section(
@@ -62,8 +65,15 @@ function lr_login_my_custom_setting_init() {
     );
     add_settings_field(
         'lr_setting_field_sms_bodyID',
-        'bodyID ارسال کد یک‌بار مصرف ثبت نام',
-        'lr_render_html_sms_bodyID',
+        'کد متن ارسال کد یک‌بار مصرف ثبت نام',
+        'lr_render_html_otp_code_sms_bodyID',
+        'lr_setting',
+        'lr_setting_section_bodyID'
+    );
+    add_settings_field(
+        'lr_setting_field_welcome_bodyID',
+        'کد متن ارسال پیامک خوش‌آمدگویی',
+        'lr_render_html_welcome_sms_bodyID',
         'lr_setting',
         'lr_setting_section_bodyID'
     );
@@ -87,8 +97,9 @@ function lr_setting_description_bodyID() {
     ?>
     <div class="lr-welcome-panel">
         <div class="lr-welcome-panel-content">
-            <h2>تنظیمات bodyID</h2>
-            <p class="lr-about-description">bodyID که از داخل پنل ملی پیامک (بخش وب سرویس خدماتی ) دریافت کردید را در بخش‌های مربوطه وارد کنید </p>
+            <h2>تنظیمات کد متن (bodyID)</h2>
+            <p class="lr-about-description"> کد متن (bodyID) که از داخل پنل ملی پیامک (بخش وب سرویس خدماتی ) دریافت
+                کردید را در بخش‌های مربوطه وارد کنید </p>
 
         </div>
     </div>
@@ -96,7 +107,8 @@ function lr_setting_description_bodyID() {
 }
 
 // Render username input field
-function lr_render_html_sms_user_name() {
+function lr_render_html_sms_user_name(): void
+{
     $user_name = get_option('_lr_send_SMS_user_name');
     ?>
     <div class="lr-form-field">
@@ -114,7 +126,8 @@ function lr_render_html_sms_user_name() {
 }
 
 // Render password/API key input field
-function lr_render_html_sms_password() {
+function lr_render_html_sms_password(): void
+{
     $password = get_option('_lr_send_SMS_user_password');
     ?>
     <div class="lr-form-field">
@@ -128,14 +141,16 @@ function lr_render_html_sms_password() {
         >
         <p class="lr-description lr-important">
             <span class="dashicons dashicons-shield-alt"></span>
-            نکته امنیتی: بهتر است به جای رمز عبور از API Key که سامانه ملی پیامک در بخش تنظیمات در اختیار شما قرار می‌دهد استفاده نمایید.
+            نکته امنیتی: بهتر است به جای رمز عبور از API Key که سامانه ملی پیامک در بخش تنظیمات در اختیار شما قرار
+            می‌دهد استفاده نمایید.
         </p>
     </div>
     <?php
 }
 
-// Render password/API key input field
-function lr_render_html_sms_bodyID() {
+// Render OTP bodyID input field
+function lr_render_html_otp_code_sms_bodyID(): void
+{
     $bodyID_otp = get_option('_lr_bodyID_registration_otp_code');
     ?>
     <div class="lr-form-field">
@@ -145,17 +160,37 @@ function lr_render_html_sms_bodyID() {
                 name="_lr_bodyID_registration_otp_code"
                 value="<?php echo isset($bodyID_otp) ? esc_attr($bodyID_otp) : ''; ?>"
                 class="regular-text"
-                placeholder="bodyID مربوط به ارسال کد یکبار مصرف را وارد کنید"
+                placeholder=" مربوط به ارسال کد یکبار مصرف را وارد کنید"
+        >
+
+    </div>
+    <?php
+}
+
+// Render OTP bodyID input field
+function lr_render_html_welcome_sms_bodyID(): void
+{
+    $bodyID_welcome = get_option('_lr_bodyID_registration_welcome_message');
+    ?>
+    <div class="lr-form-field">
+        <input
+                dir="rtl"
+                type="text"
+                name="_lr_bodyID_registration_welcome_message"
+                value="<?php echo isset($bodyID_welcome) ? esc_attr($bodyID_welcome) : ''; ?>"
+                class="regular-text"
+                placeholder=" مربوط به کد متن ارسال پیامک خوش‌آمدگویی"
         >
         <p class="lr-description">
-            توجه: هر الگوی پیامک bodyID مخصوص به خود را دارد.
+            توجه: هر الگوی پیامک کد متن مخصوص به خود را دارد.
         </p>
     </div>
     <?php
 }
 
 // Render main settings form
-function lr_render_html_form() {
+function lr_render_html_form(): void
+{
     // Check user capabilities
     if (!current_user_can('manage_options')) {
         return;
@@ -204,14 +239,16 @@ function lr_render_html_form() {
 
 // Display admin notices for settings updates
 
-function lr_admin_notices() {
+function lr_admin_notices(): void
+{
 
     // Check if settings were just updated
     if (isset($_GET['settings-updated']) && $_GET['settings-updated']) {
 
         if (get_option('_lr_send_SMS_user_name') === false ||
             get_option('_lr_send_SMS_user_password') === false ||
-            get_option('_lr_bodyID_registration_otp_code') === false) {
+            get_option('_lr_bodyID_registration_otp_code') === false ||
+            get_option('_lr_bodyID_registration_welcome_message') === false) {
             ?>
             <div class="notice notice-error is-dismissible">
                 <p><strong>خطا:</strong> خطا در ذخیره‌سازی تنظیمات.</p>

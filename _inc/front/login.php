@@ -13,7 +13,8 @@ add_action('wp_ajax_nopriv_lr_auth_login', 'lr_auth_login');
  *
  * @return void Sends JSON response
  */
-function lr_auth_login() {
+function lr_auth_login(): void
+{
     // Security: Verify nonce token
     if (!isset($_POST['_nonce']) || !wp_verify_nonce($_POST['_nonce'])) {
         wp_send_json([

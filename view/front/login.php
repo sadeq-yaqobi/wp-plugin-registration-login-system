@@ -41,7 +41,7 @@ function wp_sr_login_layout()
                                 </ul>
                             </div>
                             <div class="form-group">
-                                <button type="submit" id="rl_loading" class="btn btn-md full-width pop-login">ورود به حساب</button>
+                                <button type="submit" id="lr_loading" class="btn btn-md full-width pop-login">ورود به حساب</button>
 
                             </div>
 

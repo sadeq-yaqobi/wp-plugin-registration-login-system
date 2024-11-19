@@ -13,14 +13,22 @@ function lr_auth_send_sms_verification_code(): void
     }
 
     $user_phone = sanitize_text_field($_POST['userPhone']);
-    lr_is_phone_exist($user_phone);
     lr_validate_phone($user_phone);
+    lr_is_phone_exist($user_phone);
     $verification_code = generate_verification_code();
-    $add_code = lr_add_verification_code_to_db($user_phone, $verification_code);
+
 
     //send verification code to user by SMS
     $bodyID = get_option('_lr_bodyID_registration_otp_code');
-    lr_send_sms($verification_code, $user_phone, $bodyID);
+    $send_sms = lr_send_sms($verification_code, $user_phone, $bodyID);
+
+    if ($send_sms['StrRetStatus'] !== 'Ok') {
+        wp_send_json([
+            'error' => true,
+            'message' => ' در ارسال پیامک خطایی رخ داده است. به مدیر اطلاع دهید.',
+        ], 502);
+    }
+    $add_code = lr_add_verification_code_to_db($user_phone, $verification_code);
 
     if (!$add_code) {
         wp_send_json([
@@ -30,7 +38,7 @@ function lr_auth_send_sms_verification_code(): void
     }
     wp_send_json([
         'success' => true,
-        'message' => 'کد اعتبارسنجی ارسال شد.',
+        'message' => 'کد اعتبارسنجی به شماره شما ارسال شد.',
         'phone_number' => $user_phone
     ], 200);
 
@@ -59,7 +67,7 @@ function lr_auth_validate_verification_code(): void
     $_SESSION['user_valid_phone'] = $valid_code['valid_phone']; //setting valid user phone number as a session
     wp_send_json([
         'success' => true,
-        'message' => 'کد اعتبارسنجی درست است.اعتبارسنجی انجام شد.',
+        'message' => 'اعتبارسنجی انجام شد.',
     ], 200);
 }
 
@@ -101,13 +109,29 @@ function lr_register_user(): void
     lr_send_sms("{$user_display_name};{$user_login};{$user_password}", $user_valid_phone, $bodyID);
     unset($_SESSION['user_valid_phone']);
 
+//login user after successful registration
+    $credentials = [
+        'user_login' => $user_login,
+        'user_password' => $user_password
+    ];
+    $user_log_in = wp_signon($credentials, false);
+
+    if (is_wp_error($user_log_in)) {
+        // Send error response for invalid credentials
+        wp_send_json([
+            'error' => true,
+            'message' => 'ثبت نام با موفقیت انجام شد. لطفا از صفحه ورود وارد حساب خود شوید.',
+        ], 401);
+    }
+    // Set the current user
+    wp_set_current_user($user_log_in->ID, $user_log_in->user_login);
+
     wp_send_json([
         'success' => true,
-        'message' => 'ثبت نام با موفقیت انجام شد.'
+        'message' => 'ثبت نام با موفقیت انجام شد. در حال انتقال به سایت'
     ], 200);
 
 }
-
 
 function lr_is_phone_exist($user_phone): void
 {
@@ -117,7 +141,7 @@ function lr_is_phone_exist($user_phone): void
         'compare' => '='
     ];
     $user_query = new WP_User_Query($args);
-    if ($user_query->get_results()) {
+    if ($user_query->get_total()) {
         wp_send_json([
             'error' => true,
             'message' => 'شماره موبایل وارد شده قبلا ثبت شده است.'
@@ -128,7 +152,6 @@ function lr_is_phone_exist($user_phone): void
 function lr_validate_phone($phone_number): void
 {
     if (!preg_match('/^(00|09|\+)[0-9]{8,12}$/', $phone_number)) {
-
         wp_send_json([
             'error' => true,
             'message' => 'لطفا شماره موبایل معتبر وارد کنید.'

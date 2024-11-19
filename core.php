@@ -28,22 +28,27 @@ const LR_PLUGIN_ASSETS_URL = LR_PLUGIN_URL . 'assets/';
 function lr_register_assets_front(): void
 {
     // Register and enqueue CSS
-    wp_register_style('slick-style', LR_PLUGIN_ASSETS_URL . 'css/front/slick.min.css', [], '1.0.0');
-    wp_enqueue_style('slick-style');
-    wp_register_style('slick-theme-style', LR_PLUGIN_ASSETS_URL . 'css/front/slick-theme.min.css', [], '1.0.0');
-    wp_enqueue_style('slick-theme-style');
+    wp_register_style('lr-slick-style', LR_PLUGIN_ASSETS_URL . 'css/front/slick.min.css', [], '1.0.0');
+    wp_enqueue_style('lr-slick-style');
+    wp_register_style('lr-slick-theme-style', LR_PLUGIN_ASSETS_URL . 'css/front/slick-theme.min.css', [], '1.0.0');
+    wp_enqueue_style('lr-slick-theme-style');
+
+    wp_register_style('lr-toast', LR_PLUGIN_ASSETS_URL . 'css/jquery.toast.min.css', ['jquery'], '1.0.0');
+    wp_enqueue_style('lr-toast');
 
     wp_register_style('lr-style', LR_PLUGIN_ASSETS_URL . 'css/front/style.css', [], '1.0.0');
     wp_enqueue_style('lr-style');
 
     // Register and enqueue JavaScript
-    wp_register_script('toast-js', LR_PLUGIN_ASSETS_URL . 'js/front/jquery.toast.min.js', ['jquery'], '1.0.0', ['strategy' => 'async', 'in_footer' => true]);
-    wp_enqueue_script('toast-js');
-    wp_register_script('slick-js', LR_PLUGIN_ASSETS_URL . 'js/front/slick.min.js', ['jquery'], '1.0.0', ['strategy' => 'async', 'in_footer' => true]);
-    wp_enqueue_script('slick-js');
+    wp_register_script('lr-toast-js', LR_PLUGIN_ASSETS_URL . 'js/jquery.toast.min.js', ['jquery'], '1.0.0', ['strategy' => 'async', 'in_footer' => true]);
+    wp_enqueue_script('lr-toast-js');
+
+    wp_register_script('lr-slick-js', LR_PLUGIN_ASSETS_URL . 'js/front/slick.min.js', ['jquery'], '1.0.0', ['strategy' => 'async', 'in_footer' => true]);
+    wp_enqueue_script('lr-slick-js');
 
     wp_register_script('lr-main-js', LR_PLUGIN_ASSETS_URL . 'js/front/main.js', ['jquery'], '1.0.0', ['strategy' => 'async', 'in_footer' => true]);
     wp_enqueue_script('lr-main-js');
+
     wp_register_script('lr-front-ajax', LR_PLUGIN_ASSETS_URL . 'js/front/front-ajax.js', ['jquery'], '1.0.0', ['strategy' => 'async', 'in_footer' => true]);
     wp_enqueue_script('lr-front-ajax');
 

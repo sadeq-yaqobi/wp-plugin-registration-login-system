@@ -30,7 +30,7 @@ jQuery(document).ready(function ($) {
             // Before sending the request
             beforeSend: function () {
                 // Show loading indicator
-                $('#rl_loading').html('<div class="loader"></div>')
+                $('#lr_loading').html('<div class="loader"></div>')
             },
 
             // Handle successful response
@@ -61,7 +61,7 @@ jQuery(document).ready(function ($) {
                         .fadeIn('slow', 'swing');
 
                     // Reset loading button text
-                    $('#rl_loading').text('ورود به حساب')
+                    $('#lr_loading').text('ورود به حساب')
                 }
             },
 
@@ -202,6 +202,9 @@ jQuery(document).ready(function ($) {
 
                     beforeSend: function () {
                         // Actions to perform before sending the AJAX request
+
+                        $submitBtn.html('<div class="loader"></div>')
+
                     },
                     success: function (response) {
                         // Actions to handle successful response --- to get success message use this template: response.message
@@ -217,17 +220,64 @@ jQuery(document).ready(function ($) {
                                 .text('اعتبارسنجی کد');
                             $submitBtn.removeClass('send-phone').addClass('send-verification-code');
                             startTimer();
+                            $.toast({
+                                text: response.message, // Text that is to be shown in the toast
+                                heading: ' ', // Optional heading to be shown on the toast
+                                icon: 'success', // Type of toast icon
+                                showHideTransition: 'slide', // fade, slide or plain
+                                allowToastClose: false, // Boolean value true or false
+                                hideAfter: 5000, // false to make it sticky or number representing the miliseconds as time after which toast needs to be hidden
+                                stack: 5, // false if there should be only one toast at a time or a number representing the maximum number of toasts to be shown at a time
+                                position: 'top-left', // bottom-left or bottom-right or bottom-center or top-left or top-right or top-center or mid-center or an object representing the left, right, top, bottom values
+
+
+                                textAlign: 'right',  // Text alignment i.e. left, right or center
+                                loader: true,  // Whether to show loader or not. True by default
+                                loaderBg: '#9EC600',  // Background color of the toast loader
+                                beforeShow: function () {
+                                }, // will be triggered before the toast is shown
+                                afterShown: function () {
+                                }, // will be triggered after the toat has been shown
+                                beforeHide: function () {
+                                }, // will be triggered before the toast gets hidden
+                                afterHidden: function () {
+                                }  // will be triggered after the toast has been hidden
+                            });
                         }
 
                     },
                     error: function (error) {
                         if (error.error) {
                             // Error handling based on specific error conditions--- to get error message use this template: error.responseJSON.message
-                            alert(error.responseJSON.message)
+                            $.toast({
+                                text: error.responseJSON.message, // Text that is to be shown in the toast
+                                heading: error.responseJSON.title, // Optional heading to be shown on the toast
+                                icon: 'error', // Type of toast icon
+                                showHideTransition: 'slide', // fade, slide or plain
+                                allowToastClose: false, // Boolean value true or false
+                                hideAfter: 5000, // false to make it sticky or number representing the miliseconds as time after which toast needs to be hidden
+                                stack: 5, // false if there should be only one toast at a time or a number representing the maximum number of toasts to be shown at a time
+                                position: 'top-left', // bottom-left or bottom-right or bottom-center or top-left or top-right or top-center or mid-center or an object representing the left, right, top, bottom values
+
+
+                                textAlign: 'right',  // Text alignment i.e. left, right or center
+                                loader: true,  // Whether to show loader or not. True by default
+                                loaderBg: '#9EC600',  // Background color of the toast loader
+                                beforeShow: function () {
+                                }, // will be triggered before the toast is shown
+                                afterShown: function () {
+                                }, // will be triggered after the toat has been shown
+                                beforeHide: function () {
+                                }, // will be triggered before the toast gets hidden
+                                afterHidden: function () {
+                                }  // will be triggered after the toast has been hidden
+                            });
+                            $submitBtn.text('دریافت کد')
                         }
                     },
                     complete: function () {
                         // Actions to perform after the AJAX request completes (regardless of success or failure)
+
                     },
                 });
 
@@ -254,6 +304,7 @@ jQuery(document).ready(function ($) {
 
                     beforeSend: function () {
                         // Actions to perform before sending the AJAX request
+                        $submitBtn.html('<div class="loader"></div>')
                     },
                     success: function (response) {
                         // Actions to handle successful response --- to get success message use this template: response.message
@@ -267,17 +318,40 @@ jQuery(document).ready(function ($) {
                                 .text('ثبت نام')
                                 .prop('disabled', true)
                                 .removeClass('active');
-
                         }
                     },
                     error: function (error) {
                         if (error.error) {
                             // Error handling based on specific error conditions--- to get error message use this template: error.responseJSON.message
-                            alert(error.responseJSON.message)
+                            $.toast({
+                                text: error.responseJSON.message, // Text that is to be shown in the toast
+                                heading: error.responseJSON.title, // Optional heading to be shown on the toast
+                                icon: 'error', // Type of toast icon
+                                showHideTransition: 'slide', // fade, slide or plain
+                                allowToastClose: false, // Boolean value true or false
+                                hideAfter: 5000, // false to make it sticky or number representing the miliseconds as time after which toast needs to be hidden
+                                stack: 5, // false if there should be only one toast at a time or a number representing the maximum number of toasts to be shown at a time
+                                position: 'top-left', // bottom-left or bottom-right or bottom-center or top-left or top-right or top-center or mid-center or an object representing the left, right, top, bottom values
+
+
+                                textAlign: 'right',  // Text alignment i.e. left, right or center
+                                loader: true,  // Whether to show loader or not. True by default
+                                loaderBg: '#9EC600',  // Background color of the toast loader
+                                beforeShow: function () {
+                                }, // will be triggered before the toast is shown
+                                afterShown: function () {
+                                }, // will be triggered after the toat has been shown
+                                beforeHide: function () {
+                                }, // will be triggered before the toast gets hidden
+                                afterHidden: function () {
+                                }  // will be triggered after the toast has been hidden
+                            });
+                            $submitBtn.text('اعتبارسنجی کد')
                         }
                     },
                     complete: function () {
                         // Actions to perform after the AJAX request completes (regardless of success or failure)
+
                     },
                 });
 
@@ -302,16 +376,68 @@ jQuery(document).ready(function ($) {
 
                     beforeSend: function () {
                         // Actions to perform before sending the AJAX request
+                        $submitBtn.html('<div class="loader"></div>')
                     },
                     success: function (response) {
                         // Actions to handle successful response --- to get success message use this template: response.message
                         // Switch to name-email-password view
+                        $.toast({
+                            text: response.message, // Text that is to be shown in the toast
+                            heading: ' ', // Optional heading to be shown on the toast
+                            icon: 'success', // Type of toast icon
+                            showHideTransition: 'slide', // fade, slide or plain
+                            allowToastClose: false, // Boolean value true or false
+                            hideAfter: 5000, // false to make it sticky or number representing the miliseconds as time after which toast needs to be hidden
+                            stack: 5, // false if there should be only one toast at a time or a number representing the maximum number of toasts to be shown at a time
+                            position: 'top-left', // bottom-left or bottom-right or bottom-center or top-left or top-right or top-center or mid-center or an object representing the left, right, top, bottom values
 
+
+                            textAlign: 'right',  // Text alignment i.e. left, right or center
+                            loader: true,  // Whether to show loader or not. True by default
+                            loaderBg: '#9EC600',  // Background color of the toast loader
+                            beforeShow: function () {
+                            }, // will be triggered before the toast is shown
+                            afterShown: function () {
+                            }, // will be triggered after the toat has been shown
+                            beforeHide: function () {
+                            }, // will be triggered before the toast gets hidden
+                            afterHidden: function () {
+                            }  // will be triggered after the toast has been hidden
+                        });
+
+                        // redirect to home page after just minutes
+                        setTimeout(function () {
+                            window.location.href = '/';
+                        }, 5000);
                     },
                     error: function (error) {
                         if (error.error) {
                             // Error handling based on specific error conditions--- to get error message use this template: error.responseJSON.message
-                            alert(error.responseJSON.message)
+                            $.toast({
+                                text: error.responseJSON.message, // Text that is to be shown in the toast
+                                heading: error.responseJSON.title, // Optional heading to be shown on the toast
+                                icon: 'error', // Type of toast icon
+                                showHideTransition: 'slide', // fade, slide or plain
+                                allowToastClose: false, // Boolean value true or false
+                                hideAfter: 5000, // false to make it sticky or number representing the miliseconds as time after which toast needs to be hidden
+                                stack: 5, // false if there should be only one toast at a time or a number representing the maximum number of toasts to be shown at a time
+                                position: 'top-left', // bottom-left or bottom-right or bottom-center or top-left or top-right or top-center or mid-center or an object representing the left, right, top, bottom values
+
+
+                                textAlign: 'right',  // Text alignment i.e. left, right or center
+                                loader: true,  // Whether to show loader or not. True by default
+                                loaderBg: '#9EC600',  // Background color of the toast loader
+                                beforeShow: function () {
+                                }, // will be triggered before the toast is shown
+                                afterShown: function () {
+                                }, // will be triggered after the toat has been shown
+                                beforeHide: function () {
+                                }, // will be triggered before the toast gets hidden
+                                afterHidden: function () {
+                                }  // will be triggered after the toast has been hidden
+                            });
+
+                            $submitBtn.text('ثبت نام')
                         }
                     },
                     complete: function () {

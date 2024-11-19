@@ -1,7 +1,7 @@
 <?php
 
 
-function lr_send_sms($args,$to,$bodyID): void
+function lr_send_sms($args,$to,$bodyID):array
 {
     $username = get_option('_lr_send_SMS_user_name');
     $password = get_option('_lr_send_SMS_user_password');
@@ -18,5 +18,6 @@ function lr_send_sms($args,$to,$bodyID): void
     curl_setopt($handle, CURLOPT_POST, true);
     curl_setopt($handle, CURLOPT_POSTFIELDS, $post_data);
     $response = curl_exec($handle);
-//    var_dump($response);
+    //return response as a PHP associative array
+    return json_decode($response,true);
 }

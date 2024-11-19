@@ -73,7 +73,7 @@ jQuery(document).ready(function ($) {
     });
 });
 
-
+//registration ajax handler
 jQuery(document).ready(function ($) {
     // Cache DOM elements
     const $phoneInput = $('#phone-input');
@@ -83,7 +83,7 @@ jQuery(document).ready(function ($) {
     const $otpError = $('#error_message');
     const $phoneWrap = $('.phone-number-wrap');
     const $verificationWrap = $('.verification-code-wrap');
-    const $userDataWrapper=$('.user-data-wrapper');
+    const $userDataWrapper = $('.user-data-wrapper');
     const $resendCode = $('#resend-code');
     const $timer = $('#timer');
     let countdownInterval;
@@ -298,7 +298,7 @@ jQuery(document).ready(function ($) {
                     data: {
                         action: 'lr_auth_validate_verification_code',
                         verificationCodeValue: verificationCodeValue,
-                        userPhone:userPhone,
+                        userPhone: userPhone,
                         _nonce: lr_ajax._nonce
                     },
 
@@ -444,6 +444,110 @@ jQuery(document).ready(function ($) {
                         // Actions to perform after the AJAX request completes (regardless of success or failure)
                     },
                 });
+
+            }
+        });
+    }
+
+});
+
+// recovery password ajax handler
+jQuery(document).ready(function ($) {
+    const $submitBtnRecoverPass = $('#submit_button_recover_pass');
+    const $userEmailRecoverPass = $('#user_email_recover_pass');
+    const $userPassRecoverPass = $('#user_password_recover_pass')
+    const $userPassRepeatRecoverPass = $('#user_password_recover_pass_repeat');
+    setupRecoverButton();
+
+    function setupRecoverButton() {
+        $submitBtnRecoverPass.on('click', function (e) {
+
+            e.preventDefault();
+            if ($submitBtnRecoverPass.hasClass('recover-pass-send-mail')) {
+                let userEmail = $userEmailRecoverPass.val().trim();
+
+                // AJAX request to filter posts
+                jQuery.ajax({
+                    url: lr_ajax.ajaxurl, //ajax url
+                    type: 'post',
+                    dataType: 'json',
+                    data: {
+                        action: 'lr_recover_password',
+                        userEmail: userEmail,
+                        _nonce: lr_ajax._nonce
+                    },
+                    beforeSend: function () {
+                        // Actions to perform before sending the AJAX request
+                        $submitBtnRecoverPass.html('<div class="loader"></div>')
+                    },
+                    success: function (response) {
+                        if (response.success) {
+                            // Actions to handle successful response --- to get success message use this template: response.message
+                            $.toast({
+                                text: response.message, // Text that is to be shown in the toast
+                                heading: ' ', // Optional heading to be shown on the toast
+                                icon: 'success', // Type of toast icon
+                                showHideTransition: 'slide', // fade, slide or plain
+                                allowToastClose: false, // Boolean value true or false
+                                hideAfter: 5000, // false to make it sticky or number representing the miliseconds as time after which toast needs to be hidden
+                                stack: 5, // false if there should be only one toast at a time or a number representing the maximum number of toasts to be shown at a time
+                                position: 'top-left', // bottom-left or bottom-right or bottom-center or top-left or top-right or top-center or mid-center or an object representing the left, right, top, bottom values
+
+
+                                textAlign: 'right',  // Text alignment i.e. left, right or center
+                                loader: true,  // Whether to show loader or not. True by default
+                                loaderBg: '#9EC600',  // Background color of the toast loader
+                                beforeShow: function () {
+                                }, // will be triggered before the toast is shown
+                                afterShown: function () {
+                                }, // will be triggered after the toat has been shown
+                                beforeHide: function () {
+                                }, // will be triggered before the toast gets hidden
+                                afterHidden: function () {
+                                }  // will be triggered after the toast has been hidden
+                            });
+                        }
+                    },
+                    error: function (error) {
+                        if (error.error) {
+                            // Error handling based on specific error conditions--- to get error message use this template: error.responseJSON.message
+                            $.toast({
+                                text: error.responseJSON.message, // Text that is to be shown in the toast
+                                heading: error.responseJSON.title, // Optional heading to be shown on the toast
+                                icon: 'error', // Type of toast icon
+                                showHideTransition: 'slide', // fade, slide or plain
+                                allowToastClose: false, // Boolean value true or false
+                                hideAfter: 5000, // false to make it sticky or number representing the miliseconds as time after which toast needs to be hidden
+                                stack: 5, // false if there should be only one toast at a time or a number representing the maximum number of toasts to be shown at a time
+                                position: 'top-left', // bottom-left or bottom-right or bottom-center or top-left or top-right or top-center or mid-center or an object representing the left, right, top, bottom values
+
+
+                                textAlign: 'right',  // Text alignment i.e. left, right or center
+                                loader: true,  // Whether to show loader or not. True by default
+                                loaderBg: '#9EC600',  // Background color of the toast loader
+                                beforeShow: function () {
+                                }, // will be triggered before the toast is shown
+                                afterShown: function () {
+                                }, // will be triggered after the toat has been shown
+                                beforeHide: function () {
+                                }, // will be triggered before the toast gets hidden
+                                afterHidden: function () {
+                                }  // will be triggered after the toast has been hidden
+                            });
+
+                        }
+                    },
+                    complete: function () {
+                        // Actions to perform after the AJAX request completes (regardless of success or failure)
+                        $submitBtnRecoverPass.text('بازیابی کلمه عبور')
+                    },
+                });
+
+            }
+
+            if ($submitBtnRecoverPass.hasClass('recover-pass-change-pass')) {
+                let userPass = $userPassRecoverPass.val();
+                let userPassRepeat = $userPassRepeatRecoverPass.val();
 
             }
         });

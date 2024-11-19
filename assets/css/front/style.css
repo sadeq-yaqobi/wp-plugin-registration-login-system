@@ -297,7 +297,7 @@ section.log-space {
 .d-none {
     display: none !important;
 }
-#user_email,#user_password {
+#user_email,#user_password,#user_password_recover_pass_repeat,#user_password_recover_pass {
     direction: ltr;
 }
 
@@ -312,7 +312,7 @@ section.log-space {
     top: 50%;
     transform: translateY(-50%);
 }
-.toggle-password {
+.toggle-password,.toggle-repeated-password {
     background: none;
     border: none;
     box-shadow: none;
@@ -325,7 +325,7 @@ section.log-space {
     transform: translateY(-50%);
     transition: all 0.2s ease-in-out;
 }
-.toggle-password:focus {
+.toggle-password:focus,.toggle-repeated-password:focus {
     border: none;
     outline: none;
 }
@@ -335,7 +335,7 @@ section.log-space {
 .pass-eye-icon:hover {
     opacity: 100%;
 }
-#display_name,#phone-input,#user_email,#user_password {
+#display_name,#phone-input,#user_email,#user_password,#user_password_recover_pass_repeat,#user_password_recover_pass {
     padding-left:45px;
 }
 .password-requirements {

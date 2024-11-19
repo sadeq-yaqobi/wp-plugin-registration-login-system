@@ -198,13 +198,13 @@ jQuery(document).ready(function($) {
     const $togglePassword = $('.toggle-password');
     const $passwordRequirements = $('.password-requirements');
 
-    toggleShowPassword();
-    showPasswordRequirement();
+    toggleShowPassword($password,$togglePassword);
+    showPasswordRequirement($password);
 
     // Password visibility toggle
-    function toggleShowPassword() {
-        $togglePassword.on('click', function () {
-            const $pwd = $password;
+    function toggleShowPassword(passwordInputElement,toggleIcon) {
+        toggleIcon.on('click', function () {
+            const $pwd = passwordInputElement;
             const type = $pwd.attr('type') === 'password' ? 'text' : 'password';
             $pwd.attr('type', type);
 
@@ -220,11 +220,11 @@ jQuery(document).ready(function($) {
         });
     }
 
-    function showPasswordRequirement() {
-        $password.on('focus', function () {
+    function showPasswordRequirement(passwordInputElement) {
+        passwordInputElement.on('focus', function () {
             $passwordRequirements.fadeIn();
         });
-        $password.on('blur', function () {
+        passwordInputElement.on('blur', function () {
             $passwordRequirements.fadeOut();
         });
     }
@@ -286,6 +286,46 @@ jQuery(document).ready(function($) {
     $password.on('input', validateForm);
 
 
-    // Initial validation
-    validateForm();
+// recovery password part
+    const $submitBtnRecoverPass = $('#submit_button_recover_pass');
+    const $userEmailRecoverPass = $('#user_email_recover_pass');
+    const $userPassRecoverPass=$('#user_password_recover_pass')
+    const $userPassRepeatRecoverPass = $('#user_password_recover_pass_repeat');
+    const $toggleRepeatedPassword = $('.toggle-repeated-password');
+
+    function validateEmailRecoveryPass() {
+        const emailValue = $userEmailRecoverPass.val().trim();
+
+        // Email validation pattern
+        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        // Check if email is valid
+        const isValid = emailPattern.test(emailValue);
+
+        // Enable/disable submit button
+        $submitBtnRecoverPass.prop('disabled', !isValid)
+            .toggleClass('active', isValid);
+    }
+
+    $userEmailRecoverPass.on('input', validateEmailRecoveryPass);
+
+
+    toggleShowPassword($userPassRecoverPass,$togglePassword);
+    toggleShowPassword($userPassRepeatRecoverPass,$toggleRepeatedPassword);
+    showPasswordRequirement($userPassRecoverPass);
+
+    function validatePassRecoveryPass() {
+        //input value
+        const passwordValue = $userPassRecoverPass.val().trim();
+        const repeatedPassValue = $userPassRepeatRecoverPass.val().trim();
+
+        validatePassword(passwordValue); // to check password requirements independently
+        const isValid = validatePassword(passwordValue) && passwordValue === repeatedPassValue
+        // Enable/disable submit button
+        $submitBtnRecoverPass.prop('disabled', !isValid)
+            .toggleClass('active', isValid);
+    }
+    $userPassRecoverPass.on('input', validatePassRecoveryPass);
+    $userPassRepeatRecoverPass.on('input',validatePassRecoveryPass);
+
+
 });

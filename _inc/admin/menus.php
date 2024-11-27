@@ -31,13 +31,18 @@ function lr_login_my_custom_setting_init(): void
     register_setting('lr_settings', '_lr_send_SMS_user_password', $args);
     register_setting('lr_settings', '_lr_bodyID_registration_otp_code', $args);
     register_setting('lr_settings', '_lr_bodyID_registration_welcome_message', $args);
+    register_setting('lr_settings', '_lr_email_service_host', $args);
+    register_setting('lr_settings', '_lr_email_service_port', $args);
+    register_setting('lr_settings', '_lr_email_service_username', $args);
+    register_setting('lr_settings', '_lr_email_service_password', $args);
+
 
     // Add settings section for user and password
     add_settings_section(
         'lr_setting_section_user_password',
         '',
         'lr_setting_description_user_password',
-        'lr_setting'
+        'lr_setting',
     );
 
     // Add settings section for boyIDs
@@ -45,9 +50,17 @@ function lr_login_my_custom_setting_init(): void
         'lr_setting_section_bodyID',
         '',
         'lr_setting_description_bodyID',
+        'lr_setting',
+        '',
+
+    );
+    // Add settings section for email setting
+    add_settings_section(
+        'lr_setting_section_email',
+        '',
+        'lr_setting_description_email',
         'lr_setting'
     );
-
     // Add settings fields
     add_settings_field(
         'lr_setting_field_sms_user_name',
@@ -77,14 +90,45 @@ function lr_login_my_custom_setting_init(): void
         'lr_setting',
         'lr_setting_section_bodyID'
     );
+
+    add_settings_field(
+        'lr_setting_field_email_host',
+        'هاست (POP/IMAP server) را وارد کنید',
+        'lr_render_html_email_host',
+        'lr_setting',
+        'lr_setting_section_email'
+    );
+    add_settings_field(
+        'lr_setting_field_email_port',
+        'پورت(port)',
+        'lr_render_html_email_port',
+        'lr_setting',
+        'lr_setting_section_email'
+    );
+    add_settings_field(
+        'lr_setting_field_email_username',
+        'یوزرنیم',
+        'lr_render_html_email_username',
+        'lr_setting',
+        'lr_setting_section_email'
+    );
+    add_settings_field(
+        'lr_setting_field_email_password',
+        'پسورد',
+        'lr_render_html_email_password',
+        'lr_setting',
+        'lr_setting_section_email'
+    );
 }
 
 // Render section description
-function lr_setting_description_user_password() {
+function lr_setting_description_user_password()
+{
     ?>
     <div class="lr-welcome-panel">
         <div class="lr-welcome-panel-content">
-            <h2>تنظیمات سامانه پیامک</h2>
+            <h2 style="font-size: 22px;padding: 10px 0 10px 20px; border-bottom:solid 3px #cecece;text-align: center;margin: 30px auto">
+                تنظیمات سامانه پیامک</h2>
             <p class="lr-about-description">نام کاربری و رمز عبور سامانه ملی پیامک خود را وارد کنید</p>
 
         </div>
@@ -93,13 +137,30 @@ function lr_setting_description_user_password() {
 }
 
 // Render section description
-function lr_setting_description_bodyID() {
+function lr_setting_description_bodyID()
+{
     ?>
     <div class="lr-welcome-panel">
         <div class="lr-welcome-panel-content">
             <h2>تنظیمات کد متن (bodyID)</h2>
             <p class="lr-about-description"> کد متن (bodyID) که از داخل پنل ملی پیامک (بخش وب سرویس خدماتی ) دریافت
                 کردید را در بخش‌های مربوطه وارد کنید </p>
+
+        </div>
+    </div>
+    <?php
+}
+
+// Render section description
+function lr_setting_description_email()
+{
+    ?>
+    <div class="lr-welcome-panel">
+        <div class="lr-welcome-panel-content">
+            <h2 style="font-size: 22px;padding: 10px 0 10px 20px; border-bottom:solid 3px #cecece;text-align: center;margin: 30px auto">
+                تنظیمات ارسال ایمیل</h2>
+            <p class="lr-about-description">تکمیل اطلاعات زیر جهت ارسال ایمیل ضروری است. اطلاعات مربوط به هاست، پورت،
+                یوزرنیم و پسورد سرویس ایمیل، پس از ساخت اکانت ایمیل در پنل هاستین شما در دسترس است</p>
 
         </div>
     </div>
@@ -188,6 +249,88 @@ function lr_render_html_welcome_sms_bodyID(): void
     <?php
 }
 
+// Render email host input field
+function lr_render_html_email_host(): void
+{
+    $email_host = get_option('_lr_email_service_host');
+    ?>
+    <div class="lr-form-field">
+        <input
+                dir="rtl"
+                type="text"
+                name="_lr_email_service_host"
+                value="<?php echo isset($email_host) ? esc_attr($email_host) : ''; ?>"
+                class="regular-text"
+                placeholder=" مربوط به هاست سرویس دهنده ایمیل"
+        >
+        <p class="lr-description">
+
+        </p>
+    </div>
+    <?php
+}
+
+function lr_render_html_email_port(): void
+{
+    $email_port = get_option('_lr_email_service_port');
+    ?>
+    <div class="lr-form-field">
+        <input
+                dir="rtl"
+                type="text"
+                name="_lr_email_service_port"
+                value="<?php echo isset($email_port) ? esc_attr($email_port) : ''; ?>"
+                class="regular-text"
+                placeholder=" مربوط به پورت سرویس دهنده ایمیل"
+        >
+        <p class="lr-description">
+
+        </p>
+    </div>
+    <?php
+}
+
+function lr_render_html_email_username(): void
+{
+    $email_username = get_option('_lr_email_service_username');
+    ?>
+    <div class="lr-form-field">
+        <input
+                dir="rtl"
+                type="text"
+                name="_lr_email_service_username"
+                value="<?php echo isset($email_username) ? esc_attr($email_username) : ''; ?>"
+                class="regular-text"
+                placeholder=" یوزرنیم ایمیل"
+        >
+        <p class="lr-description">
+
+        </p>
+    </div>
+    <?php
+}
+
+function lr_render_html_email_password(): void
+{
+    $email_password = get_option('_lr_email_service_password');
+    ?>
+    <div class="lr-form-field">
+        <input
+                dir="rtl"
+                type="text"
+                name="_lr_email_service_password"
+                value="<?php echo isset($email_password) ? esc_attr($email_password) : ''; ?>"
+                class="regular-text"
+                placeholder=" پسورد ایمیل"
+        >
+        <p class="lr-description">
+
+        </p>
+    </div>
+    <?php
+}
+
+
 // Render main settings form
 function lr_render_html_form(): void
 {
@@ -198,7 +341,6 @@ function lr_render_html_form(): void
 
     // Add custom styles for the settings page
     ?>
-
     <div class="lr-wrap">
         <!-- Page Header -->
         <h1 class="wp-heading-inline"><?php echo esc_html(get_admin_page_title()); ?></h1>
@@ -215,7 +357,7 @@ function lr_render_html_form(): void
                 do_settings_sections('lr_setting');
 
                 // Submit Button
-                echo '<div class="submit-wrapper" style="margin-top: 20px;">';
+                echo '<div class="submit-wrapper lr-submit-wrapper">';
                 submit_button('ذخیره تغییرات', 'primary large');
                 echo '</div>';
                 ?>
@@ -248,7 +390,11 @@ function lr_admin_notices(): void
         if (get_option('_lr_send_SMS_user_name') === false ||
             get_option('_lr_send_SMS_user_password') === false ||
             get_option('_lr_bodyID_registration_otp_code') === false ||
-            get_option('_lr_bodyID_registration_welcome_message') === false) {
+            get_option('_lr_bodyID_registration_welcome_message') === false ||
+            get_option('_lr_email_service_host') === false ||
+            get_option('_lr_email_service_port') === false ||
+            get_option('_lr_email_service_username') === false ||
+            get_option('_lr_email_service_password') === false) {
             ?>
             <div class="notice notice-error is-dismissible">
                 <p><strong>خطا:</strong> خطا در ذخیره‌سازی تنظیمات.</p>

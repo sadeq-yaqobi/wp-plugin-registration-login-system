@@ -38,6 +38,8 @@ function lr_email_layout_recovery_password_link($link, $logo_url = ''): string
     background-color: #8d95ff;
     max-width: 600px;
     margin: auto;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 5px 0px, rgba(0, 0, 0, 0.1) 0px 0px 1px 0px;
+    border-radius: 10px;
 }
         .container {
     max-width: 600px;

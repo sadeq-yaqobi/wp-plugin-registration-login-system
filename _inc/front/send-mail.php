@@ -3,30 +3,35 @@
 add_action( 'phpmailer_init', 'lr_send_mail' );
 function lr_send_mail( $phpmailer ): void
 {
+    $email_host = get_option('_lr_email_service_host');
+    $email_port = get_option('_lr_email_service_port');
+    $email_username = get_option('_lr_email_service_username');
+    $email_password = get_option('_lr_email_service_password');
+    $site_title = get_bloginfo('name');
     // Set the mailer to use SMTP
     $phpmailer->isSMTP();
 
     // Specify the SMTP server to send through
-    $phpmailer->Host = 'mail.siteyar.net';
+    $phpmailer->Host = $email_host;
 
     // Enable SMTP authentication
     $phpmailer->SMTPAuth = true; // This enables authentication using the Username and Password properties
 
     // Set the SMTP port
-    $phpmailer->Port = 587; // Common ports: 25, 587 (STARTTLS), 465 (SSL)
+    $phpmailer->Port = $email_port; // Common ports: 25, 587 (STARTTLS), 465 (SSL)
 
     // Provide the SMTP username and password for authentication
-    $phpmailer->Username = 'info@siteyar.net'; // Your SMTP username
-    $phpmailer->Password = '123$asd!QWE'; // Your SMTP password
+    $phpmailer->Username = $email_username; // Your SMTP username
+    $phpmailer->Password = $email_password; // Your SMTP password
 
     // Uncomment the line below if using encryption for SMTP (recommended)
     // $phpmailer->SMTPSecure = 'tls'; // Choose 'ssl' for SMTPS on port 465, or 'tls' for SMTP+STARTTLS on port 25 or 587
 
     // Set the "From" email address
-    $phpmailer->From = "info@siteyar.net"; // The email address the message will appear to be sent from
+//    $phpmailer->From = "info@siteyar.net"; // The email address the message will appear to be sent from
 
     // Set the "From" name
-    $phpmailer->FromName = "سایت یار"; // The name the message will appear to be sent from
+    $phpmailer->FromName = $site_title; // The name the message will appear to be sent from
 }
 
 

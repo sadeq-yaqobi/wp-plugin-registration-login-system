@@ -76,6 +76,7 @@ add_action('wp_enqueue_scripts', 'lr_register_assets_front');
 add_action('admin_enqueue_scripts', 'lr_register_assets_admin');
 
 //including files
+include_once (ABSPATH.'wp-includes/pluggable.php'); // it's necessary to include pluggable.php file if you want to use wp_mail() function in plugins because this function will include just when all plugins were included
 if (is_admin()) {
     include LR_PLUGIN_INC . 'admin/menus.php';
     include LR_PLUGIN_INC . 'admin/custom-user-profile-field.php';
@@ -85,10 +86,14 @@ include_once LR_PLUGIN_INC . 'front/login.php';
 include_once LR_PLUGIN_INC . 'front/send-SMS.php';
 include_once LR_PLUGIN_INC . 'front/registration.php';
 include_once LR_PLUGIN_INC . 'front/recover-password.php';
+include_once LR_PLUGIN_INC . 'front/send-mail.php';
 include_once LR_PLUGIN_INC . 'helper.php';
+include_once LR_PLUGIN_INC . 'email-layout.php';
 include_once LR_PLUGIN_INC . 'database/sms-functions.php';
+include_once LR_PLUGIN_INC . 'database/password-recovery-functions.php';
 include_once LR_PLUGIN_INC . 'database/table-functions.php';
 include_once LR_PLUGIN_INC . 'database/clean-up-database.php';
+
 
 
 
@@ -97,10 +102,12 @@ include_once LR_PLUGIN_INC . 'database/clean-up-database.php';
 function lr_activation_functions(): void
 {
     create_otp_verification_table();
+    create_recovery_password_link_table();
 }
 function lr_deactivation_functions(): void
 {
     delete_otp_verification_table();
+    delete_recovery_password_link_table();
 }
 
 
@@ -108,4 +115,13 @@ register_activation_hook(__FILE__, 'lr_activation_functions');
 register_deactivation_hook(__FILE__, 'lr_deactivation_functions');
 
 cleanup_expired_verification_codes();
+
+
+/*function mail_error($wp_error)
+{
+    echo '<pre>';
+    print_r($wp_error);
+    echo '</pre>';
+}
+add_action('wp_mail_failed','mail_error');*/
 

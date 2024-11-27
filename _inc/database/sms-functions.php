@@ -22,7 +22,7 @@ function lr_add_verification_code_to_db($phone_number, $verification_code): bool
             'message' => 'تعداد درخواست‌ها از حد مجاز بیشتر است. لطفا بعدا امتحان کنید.'
         ], 429);
     }
-    //add to otp code to database
+    //add the otp code to database
     $expires_at = date('Y-m-d H:i:s', strtotime('+3 minutes'));
     $data = [
         'phone_number' => $phone_number,
@@ -31,12 +31,7 @@ function lr_add_verification_code_to_db($phone_number, $verification_code): bool
         'is_used' => 0
     ];
     $format = ['%s', '%s', '%s', '%d'];
-    $stmt = $wpdb->insert($table, $data, $format);
-
-    if (!$stmt) {
-        return false;
-    }
-    return true;
+    return $wpdb->insert($table, $data, $format);
 }
 
 // validate an OTP

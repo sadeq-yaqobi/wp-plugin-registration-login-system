@@ -506,6 +506,8 @@ jQuery(document).ready(function ($) {
                                 afterHidden: function () {
                                 }  // will be triggered after the toast has been hidden
                             });
+                            $submitBtnRecoverPass.text('ایمیل خود را بررسی کنید')
+                                .prop('disabled', true);
                         }
                     },
                     error: function (error) {
@@ -534,12 +536,12 @@ jQuery(document).ready(function ($) {
                                 afterHidden: function () {
                                 }  // will be triggered after the toast has been hidden
                             });
-
+                            $submitBtnRecoverPass.text('بازیابی کلمه عبور')
                         }
                     },
                     complete: function () {
                         // Actions to perform after the AJAX request completes (regardless of success or failure)
-                        $submitBtnRecoverPass.text('بازیابی کلمه عبور')
+
                     },
                 });
 

@@ -79,7 +79,8 @@ function lr_auth_login(): void
  * @param string $password User's password
  * @return void Sends JSON response if validation fails
  */
-function lr_validate_input(string $email, string $password) {
+function lr_validate_input(string $email, string $password): void
+{
     // Check for empty fields
     if (empty($email) or empty($password)) {
         wp_send_json([
@@ -103,7 +104,8 @@ function lr_validate_input(string $email, string $password) {
  * @return int Modified expiration time in seconds
  */
 add_filter('auth_cookie_expiration', 'lr_expiration_auth_cookie', 10, 3);
-function lr_expiration_auth_cookie(int $expiration) {
+function lr_expiration_auth_cookie(int $expiration): float|int
+{
     // Set cookie expiration to 10 days
     return DAY_IN_SECONDS * 10;
 }

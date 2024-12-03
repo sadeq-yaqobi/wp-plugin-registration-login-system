@@ -289,8 +289,8 @@ jQuery(document).ready(function($) {
 // recovery password part
     const $submitBtnRecoverPass = $('#submit_button_recover_pass');
     const $userEmailRecoverPass = $('#user_email_recover_pass');
-    const $userPassRecoverPass=$('#user_password_recover_pass')
-    const $userPassRepeatRecoverPass = $('#user_password_recover_pass_repeat');
+    const $newPassword = $('#new_password')
+    const $newPasswordRepeated = $('#new_password_repeated');
     const $toggleRepeatedPassword = $('.toggle-repeated-password');
 
     function validateEmailRecoveryPass() {
@@ -309,23 +309,23 @@ jQuery(document).ready(function($) {
     $userEmailRecoverPass.on('input', validateEmailRecoveryPass);
 
 
-    toggleShowPassword($userPassRecoverPass,$togglePassword);
-    toggleShowPassword($userPassRepeatRecoverPass,$toggleRepeatedPassword);
-    showPasswordRequirement($userPassRecoverPass);
+    toggleShowPassword($newPassword,$togglePassword);
+    toggleShowPassword($newPasswordRepeated,$toggleRepeatedPassword);
+    showPasswordRequirement($newPassword);
 
     function validatePassRecoveryPass() {
         //input value
-        const passwordValue = $userPassRecoverPass.val().trim();
-        const repeatedPassValue = $userPassRepeatRecoverPass.val().trim();
+        const newPasswordValue = $newPassword.val().trim();
+        const repeatedNewPassValue = $newPasswordRepeated.val().trim();
 
-        validatePassword(passwordValue); // to check password requirements independently
-        const isValid = validatePassword(passwordValue) && passwordValue === repeatedPassValue
+        validatePassword(newPasswordValue); // to check password requirements independently
+        const isValid = validatePassword(newPasswordValue) && newPasswordValue === repeatedNewPassValue
         // Enable/disable submit button
         $submitBtnRecoverPass.prop('disabled', !isValid)
             .toggleClass('active', isValid);
     }
-    $userPassRecoverPass.on('input', validatePassRecoveryPass);
-    $userPassRepeatRecoverPass.on('input',validatePassRecoveryPass);
+    $newPassword.on('input', validatePassRecoveryPass);
+    $newPasswordRepeated.on('input',validatePassRecoveryPass);
 
 
 });

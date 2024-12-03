@@ -85,7 +85,8 @@ include_once LR_PLUGIN_VIEW . 'front/login.php';
 include_once LR_PLUGIN_INC . 'front/login.php';
 include_once LR_PLUGIN_INC . 'front/send-SMS.php';
 include_once LR_PLUGIN_INC . 'front/registration.php';
-include_once LR_PLUGIN_INC . 'front/recover-password.php';
+include_once LR_PLUGIN_INC . 'front/send-recover-password-email.php';
+include_once LR_PLUGIN_INC . 'front/change-password.php';
 include_once LR_PLUGIN_INC . 'front/send-mail.php';
 include_once LR_PLUGIN_INC . 'helper.php';
 include_once LR_PLUGIN_INC . 'email-layout.php';
@@ -102,12 +103,12 @@ include_once LR_PLUGIN_INC . 'database/clean-up-database.php';
 function lr_activation_functions(): void
 {
     create_otp_verification_table();
-    create_recovery_password_link_table();
+    create_recovery_password_token_table();
 }
 function lr_deactivation_functions(): void
 {
     delete_otp_verification_table();
-    delete_recovery_password_link_table();
+    delete_recovery_password_token_table();
 }
 
 
@@ -115,6 +116,7 @@ register_activation_hook(__FILE__, 'lr_activation_functions');
 register_deactivation_hook(__FILE__, 'lr_deactivation_functions');
 
 cleanup_expired_verification_codes();
+cleanup_expired_recovery_password_token();
 
 
 /*function mail_error($wp_error)

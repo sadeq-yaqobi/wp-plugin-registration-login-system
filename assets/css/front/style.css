@@ -297,7 +297,7 @@ section.log-space {
 .d-none {
     display: none !important;
 }
-#user_email,#user_password,#user_password_recover_pass_repeat,#user_password_recover_pass,#user_email_recover_pass  {
+#user_email,#user_password,#new_password_repeated,#new_password,#user_email_recover_pass  {
     direction: ltr;
 }
 
@@ -336,7 +336,7 @@ section.log-space {
 .pass-eye-icon:hover {
     opacity: 100%;
 }
-#display_name,#phone-input,#user_email,#user_password,#user_password_recover_pass_repeat,#user_password_recover_pass,#user_email_recover_pass  {
+#display_name,#phone-input,#user_email,#user_password,#new_password_repeated,#new_password,#user_email_recover_pass  {
     padding-left:45px;
 }
 .password-requirements {

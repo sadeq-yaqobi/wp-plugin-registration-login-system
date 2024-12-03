@@ -1,5 +1,5 @@
 <?php
-function wp_sr_login_layout()
+function wp_lr_login_layout(): void
 {
     ?>
     <!-- Log In Modal -->
@@ -37,7 +37,7 @@ function wp_sr_login_layout()
                                         <input id="remember_me" class="checkbox-custom" name="remember_me" type="checkbox">
                                         <label for="remember_me" class="checkbox-custom-label">مرا به خاطر بسپار</label>
                                     </li>
-                                    <li class="left"><a href="#" class="theme-cl">فراموشی رمز عبور</a></li>
+                                    <li class="left"><a href="<?php echo site_url('recovery-password/')?>" class="theme-cl">فراموشی رمز عبور</a></li>
                                 </ul>
                             </div>
                             <div class="form-group">
@@ -68,4 +68,4 @@ function wp_sr_login_layout()
     <!-- End Modal -->
     <?php
 }
-add_shortcode('ls-login','wp_sr_login_layout');
+add_shortcode('lr-login','wp_lr_login_layout');

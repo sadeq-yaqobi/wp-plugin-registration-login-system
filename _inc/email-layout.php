@@ -139,7 +139,7 @@ color: #d35400;
 
         <div class="footer">
             <!--            <p dir="ltr">Need help? Contact our support team.</p>-->
-            <p>کلیه حقوق برای سایت‌یار محفوظ است 2024 &copy;</p>
+            <p>کلیه حقوق برای ' . $site_title . ' محفوظ است 2024 &copy;</p>
         </div>
     </div>
 </section>

@@ -13,10 +13,10 @@ function cleanup_expired_verification_codes(): void
 }
 
 // Delete expired and used recovery password links periodically
-function cleanup_expired_recovery_password_link(): void
+function cleanup_expired_recovery_password_token(): void
 {
     global $wpdb;
-    $table = $wpdb->prefix . 'lr_recovery_password_link';
+    $table = $wpdb->prefix . 'lr_recovery_password_token';
     $retention_period = HOUR_IN_SECONDS*12;
 
     $wpdb->query("
@@ -25,4 +25,4 @@ function cleanup_expired_recovery_password_link(): void
     ");
 }
 add_action('wp_scheduled_delete', 'cleanup_expired_verification_codes');
-add_action('wp_scheduled_delete', 'cleanup_expired_recovery_password_link');
+add_action('wp_scheduled_delete', 'cleanup_expired_recovery_password_token');
